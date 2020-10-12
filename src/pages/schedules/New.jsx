@@ -1,5 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ReactCalendar from 'react-calendar';
+import './Calendar.css';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ja';
+
+dayjs.locale('ja');
+
+const isDateIncluded = (dates, date) =>
+  dates.some((d) => dayjs(date).isSame(dayjs(d), 'day'));
+const removeDate = (dates, date) =>
+  dates.filter((d) => !dayjs(date).isSame(dayjs(d), 'day'));
+
+function Calendar() {
+  const [dates, setDates] = useState([]);
+
+  const onClickDay = (date) => {
+    console.log('aaa');
+    if (isDateIncluded(dates, date)) {
+      setDates(removeDate(dates, date));
+    } else {
+      setDates([...dates, date]);
+    }
+  };
+
+  const tileClassName = ({ date }) => {
+    if (isDateIncluded(dates, date)) {
+      return 'react-calendar__tile-selected';
+    }
+  };
+
+  return (
+    <ReactCalendar
+      locale="ja"
+      tileClassName={tileClassName}
+      onClickDay={onClickDay}
+    />
+  );
+}
 
 export function New() {
-  return <div>new</div>;
+  return <Calendar locale="ja" />;
 }
