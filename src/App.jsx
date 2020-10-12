@@ -1,16 +1,11 @@
 import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
+import { New } from "./pages/schedules/New";
 
-function Home() {
-  return <div>home</div>;
-}
-
-function App() {
+export function App() {
   return (
     <BrowserRouter>
-      <Route exact path="/" component={Home} />
+      <Route exact path="/schedules/new" component={New} />
     </BrowserRouter>
   );
 }
-
-export default App;
