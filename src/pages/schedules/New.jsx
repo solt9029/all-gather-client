@@ -14,6 +14,11 @@ const removeDate = (dates, date) =>
 
 function Calendar() {
   const [dates, setDates] = useState([]);
+  const [title, setTitle] = useState('');
+
+  const onTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
 
   const onClickDay = (date) => {
     if (isDateIncluded(dates, date)) {
@@ -43,7 +48,12 @@ function Calendar() {
         <Col>
           <Form.Group>
             <Form.Label>イベント名</Form.Label>
-            <Form.Control type="text" placeholder="イベント名" />
+            <Form.Control
+              onChange={onTitleChange}
+              value={title}
+              type="text"
+              placeholder="イベント名"
+            />
           </Form.Group>
         </Col>
       </Row>
