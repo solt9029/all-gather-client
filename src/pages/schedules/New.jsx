@@ -41,7 +41,7 @@ function Calendar() {
 
       <Row className="mb-3">
         <Col>
-          <Form.Group controlId="formBasicEmail">
+          <Form.Group>
             <Form.Label>イベント名</Form.Label>
             <Form.Control type="text" placeholder="イベント名" />
           </Form.Group>
