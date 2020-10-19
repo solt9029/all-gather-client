@@ -3,7 +3,7 @@ import ReactCalendar from 'react-calendar';
 import './Calendar.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ja';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Form, Button } from 'react-bootstrap';
 
 dayjs.locale('ja');
 
@@ -32,15 +32,42 @@ function Calendar() {
   return (
     <>
       <Row className="mb-3">
-        <Col>日程を選んでください。</Col>
+        <Col>
+          <p>
+            "全員集合！"は多数決ではなく全員の予定を合わせることを前提としてデザインされた日程調整ツールです。
+          </p>
+        </Col>
       </Row>
+
+      <Row className="mb-3">
+        <Col>
+          <Form.Group controlId="formBasicEmail">
+            <Form.Label>イベント名</Form.Label>
+            <Form.Control type="text" placeholder="イベント名" />
+          </Form.Group>
+        </Col>
+      </Row>
+
       <Row>
+        <Col>
+          <p>日程を選びましょう</p>
+        </Col>
+      </Row>
+      <Row className="mb-5">
         <Col>
           <ReactCalendar
             locale="ja"
             tileClassName={tileClassName}
             onClickDay={onClickDay}
           />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col>
+          <Button style={{ width: '100%' }} variant="primary" type="submit">
+            作成
+          </Button>
         </Col>
       </Row>
     </>
