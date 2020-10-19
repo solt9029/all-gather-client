@@ -3,6 +3,7 @@ import ReactCalendar from 'react-calendar';
 import './Calendar.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ja';
+import { Row, Col } from 'react-bootstrap';
 
 dayjs.locale('ja');
 
@@ -15,7 +16,6 @@ function Calendar() {
   const [dates, setDates] = useState([]);
 
   const onClickDay = (date) => {
-    console.log('aaa');
     if (isDateIncluded(dates, date)) {
       setDates(removeDate(dates, date));
     } else {
@@ -30,11 +30,20 @@ function Calendar() {
   };
 
   return (
-    <ReactCalendar
-      locale="ja"
-      tileClassName={tileClassName}
-      onClickDay={onClickDay}
-    />
+    <>
+      <Row className="mb-3">
+        <Col>日程を選んでください。</Col>
+      </Row>
+      <Row>
+        <Col>
+          <ReactCalendar
+            locale="ja"
+            tileClassName={tileClassName}
+            onClickDay={onClickDay}
+          />
+        </Col>
+      </Row>
+    </>
   );
 }
 

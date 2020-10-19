@@ -6,7 +6,7 @@ import { Navbar, Container, NavbarBrand } from 'react-bootstrap';
 export function App() {
   return (
     <>
-      <Navbar bg="primary" variant="dark">
+      <Navbar bg="primary" variant="dark" className="mb-4">
         <Container>
           <NavbarBrand>全員集合！</NavbarBrand>
         </Container>
