@@ -4,7 +4,7 @@ import './Calendar.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ja';
 import { Row, Col, Form, Button } from 'react-bootstrap';
-import { createSchedule } from '../../utils';
+import { createSchedule, client } from '../../utils';
 
 dayjs.locale('ja');
 
@@ -21,8 +21,12 @@ function Calendar() {
     setTitle(event.target.value);
   };
 
-  const onSubmitClick = () => {
-    createSchedule({ dates, title });
+  const onSubmitClick = async () => {
+    try {
+      await client.post('/schedules', { dates, title });
+    } catch (error) {
+      console.log(error.response.data.errors);
+    }
   };
 
   const onClickDay = (date) => {
