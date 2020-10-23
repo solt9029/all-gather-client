@@ -4,6 +4,7 @@ import './Calendar.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ja';
 import { Row, Col, Form, Button } from 'react-bootstrap';
+import { createSchedule } from '../../utils';
 
 dayjs.locale('ja');
 
@@ -18,6 +19,10 @@ function Calendar() {
 
   const onTitleChange = (event) => {
     setTitle(event.target.value);
+  };
+
+  const onSubmitClick = () => {
+    createSchedule({ dates, title });
   };
 
   const onClickDay = (date) => {
@@ -75,7 +80,12 @@ function Calendar() {
 
       <Row>
         <Col>
-          <Button style={{ width: '100%' }} variant="primary" type="submit">
+          <Button
+            onClick={onSubmitClick}
+            style={{ width: '100%' }}
+            variant="primary"
+            type="submit"
+          >
             作成
           </Button>
         </Col>
