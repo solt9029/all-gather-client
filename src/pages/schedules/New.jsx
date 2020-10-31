@@ -5,6 +5,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/ja';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { createSchedule } from '../../utils';
+import { useHistory } from 'react-router-dom';
 
 dayjs.locale('ja');
 
@@ -16,6 +17,7 @@ const removeDate = (dates, date) =>
 function Calendar() {
   const [dates, setDates] = useState([]);
   const [title, setTitle] = useState('');
+  const history = useHistory();
 
   const onTitleChange = (event) => {
     setTitle(event.target.value);
@@ -24,7 +26,7 @@ function Calendar() {
   const onSubmitClick = async () => {
     try {
       const response = await createSchedule({ title, dates });
-      console.log(response.data.id);
+      history.push(`/schedules/${response.data.id}`);
     } catch (error) {
       console.log(error.response.data.errors);
     }
