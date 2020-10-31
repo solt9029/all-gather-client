@@ -6,6 +6,7 @@ import CopyToClipBoard from 'react-copy-to-clipboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { intersectionBy } from 'lodash';
+import './Check.css';
 
 export function Show() {
   const routeMatch = useRouteMatch();
@@ -65,9 +66,16 @@ export function Show() {
           )}
         </Col>
       </Row>
-      {candidateDates.map((candidateDate) => (
-        <div>{candidateDate.date}</div>
-      ))}
+      <Form.Group>
+        {candidateDates.map((candidateDate) => (
+          <Form.Check
+            key={candidateDate.id}
+            name="aaa"
+            type="checkbox"
+            label={candidateDate.date}
+          />
+        ))}
+      </Form.Group>
       <Row>
         <Col></Col>
       </Row>
