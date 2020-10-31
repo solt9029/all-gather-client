@@ -13,6 +13,7 @@ export function Show() {
     title: '',
     dates: [],
   });
+  const [isUrlCopied, setIsUrlCopied] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -21,6 +22,10 @@ export function Show() {
       console.log(response.data);
     })();
   }, [routeMatch]);
+
+  const onCopy = () => {
+    setIsUrlCopied(true);
+  };
 
   console.log(routeMatch.params.id);
   return (
@@ -36,10 +41,15 @@ export function Show() {
               readOnly={true}
             />
           </Form.Group>
-          <Button style={{ width: '100%' }}>
-            <FontAwesomeIcon style={{ marginRight: '10px' }} icon={faCopy} />
-            URLをコピー
-          </Button>
+          <CopyToClipBoard onCopy={onCopy} text={window.location.href}>
+            <Button style={{ width: '100%' }}>
+              <FontAwesomeIcon style={{ marginRight: '10px' }} icon={faCopy} />
+              URLをコピー
+            </Button>
+          </CopyToClipBoard>
+          {isUrlCopied && (
+            <small className="text-secondary">URLのコピーが完了しました</small>
+          )}
         </Col>
       </Row>
     </>
