@@ -5,6 +5,7 @@ import { useRouteMatch } from 'react-router-dom';
 import CopyToClipBoard from 'react-copy-to-clipboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import { intersection } from 'lodash';
 
 export function Show() {
   const routeMatch = useRouteMatch();
@@ -27,7 +28,19 @@ export function Show() {
     setIsUrlCopied(true);
   };
 
-  console.log(routeMatch.params.id);
+  const { schedule_dates, schedule_members } = schedule;
+  if (schedule_dates && schedule_members) {
+    // 重なった日付
+    console.log(
+      intersection(
+        schedule_dates.map((scheduleDate) => scheduleDate.date),
+        ...schedule_members.map((scheduleMember) =>
+          scheduleMember.schedule_dates.map((scheduleDate) => scheduleDate.date)
+        )
+      )
+    );
+  }
+
   return (
     <>
       <Row className="mb-3">
@@ -51,6 +64,10 @@ export function Show() {
             <small className="text-secondary">URLのコピーが完了しました</small>
           )}
         </Col>
+      </Row>
+
+      <Row>
+        <Col></Col>
       </Row>
     </>
   );
