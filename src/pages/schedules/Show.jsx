@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
 import { createSchedule, fetchSchedule } from '../../utils';
 import { useRouteMatch } from 'react-router-dom';
@@ -9,11 +9,7 @@ import { intersection } from 'lodash';
 
 export function Show() {
   const routeMatch = useRouteMatch();
-  const [schedule, setSchedule] = useState({
-    id: routeMatch.params.id,
-    title: '',
-    dates: [],
-  });
+  const [schedule, setSchedule] = useState(null);
   const [isUrlCopied, setIsUrlCopied] = useState(false);
 
   useEffect(() => {
@@ -28,18 +24,21 @@ export function Show() {
     setIsUrlCopied(true);
   };
 
-  const { schedule_dates, schedule_members } = schedule;
-  if (schedule_dates && schedule_members) {
-    // 重なった日付
-    console.log(
-      intersection(
-        schedule_dates.map((scheduleDate) => scheduleDate.date),
-        ...schedule_members.map((scheduleMember) =>
-          scheduleMember.schedule_dates.map((scheduleDate) => scheduleDate.date)
-        )
+  /**
+   * @type {Array}
+   */
+  const candidateDates = useMemo(() => {
+    if (!schedule) {
+      return [];
+    }
+    const { schedule_dates, schedule_members } = schedule;
+    return intersection(
+      schedule_dates.map((scheduleDate) => scheduleDate.date),
+      ...schedule_members.map((scheduleMember) =>
+        scheduleMember.schedule_dates.map((scheduleDate) => scheduleDate.date)
       )
     );
-  }
+  }, [schedule]);
 
   return (
     <>
@@ -65,7 +64,9 @@ export function Show() {
           )}
         </Col>
       </Row>
-
+      {candidateDates.map((date) => (
+        <div>{date}</div>
+      ))}
       <Row>
         <Col></Col>
       </Row>
