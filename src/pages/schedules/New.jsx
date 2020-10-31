@@ -23,7 +23,8 @@ function Calendar() {
 
   const onSubmitClick = async () => {
     try {
-      await createSchedule({ title, dates });
+      const response = await createSchedule({ title, dates });
+      console.log(response.data.id);
     } catch (error) {
       console.log(error.response.data.errors);
     }
