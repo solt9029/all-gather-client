@@ -5,13 +5,14 @@ import { useRouteMatch } from 'react-router-dom';
 import CopyToClipBoard from 'react-copy-to-clipboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
-import { intersectionBy } from 'lodash';
+import { intersectionBy, cloneDeep } from 'lodash';
 import './Check.css';
 
 export function Show() {
   const routeMatch = useRouteMatch();
   const [schedule, setSchedule] = useState(null);
   const [isUrlCopied, setIsUrlCopied] = useState(false);
+  const [checkedIds, setCheckedIds] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -44,7 +45,7 @@ export function Show() {
 
   return (
     <>
-      <Row className="mb-3">
+      <Row className="mb-5">
         <Col>
           <Form.Group>
             <Form.Label>日程調整URL</Form.Label>
@@ -67,14 +68,27 @@ export function Show() {
         </Col>
       </Row>
       <Form.Group>
-        {candidateDates.map((candidateDate) => (
-          <Form.Check
-            key={candidateDate.id}
-            name="aaa"
-            type="checkbox"
-            label={candidateDate.date}
-          />
-        ))}
+        <Form.Label>参加可能な日付を選びましょう</Form.Label>
+        {candidateDates
+          .sort((a, b) => (new Date(a.date) < new Date(b.date) ? -1 : 1))
+          .map((candidateDate) => (
+            <Form.Check
+              onChange={(event) => {
+                console.log(checkedIds);
+                if (event.target.checked) {
+                  setCheckedIds([...checkedIds, candidateDate.id]);
+                  return;
+                }
+                setCheckedIds(
+                  checkedIds.filter((id) => id !== candidateDate.id)
+                );
+              }}
+              key={candidateDate.id}
+              name="aaa"
+              type="checkbox"
+              label={candidateDate.date}
+            />
+          ))}
       </Form.Group>
       <Row>
         <Col></Col>
