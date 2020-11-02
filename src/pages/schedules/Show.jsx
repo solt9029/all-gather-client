@@ -81,6 +81,8 @@ export function Show() {
               .sort((a, b) => (new Date(a.date) < new Date(b.date) ? -1 : 1))
               .map((candidateDate) => (
                 <Form.Check
+                  style={{ padding: '5px', marginLeft: '20px' }}
+                  className="checkbox"
                   onChange={(event) => {
                     console.log(checkedIds);
                     if (event.target.checked) {

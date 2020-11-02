@@ -4,15 +4,17 @@ import { New } from './pages/schedules/New';
 import { Show } from './pages/schedules/Show';
 import { Navbar, Container, NavbarBrand } from 'react-bootstrap';
 
+const containerStyle = { maxWidth: '800px' };
+
 export function App() {
   return (
     <>
       <Navbar bg="primary" variant="dark" className="mb-4">
-        <Container>
+        <Container style={containerStyle}>
           <NavbarBrand>全員集合！</NavbarBrand>
         </Container>
       </Navbar>
-      <Container>
+      <Container style={containerStyle}>
         <BrowserRouter>
           <Switch>
             <Route exact path="/schedules/new" component={New} />
