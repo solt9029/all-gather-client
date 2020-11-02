@@ -13,6 +13,7 @@ export function Show() {
   const [schedule, setSchedule] = useState(null);
   const [isUrlCopied, setIsUrlCopied] = useState(false);
   const [checkedIds, setCheckedIds] = useState([]);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -43,19 +44,24 @@ export function Show() {
     );
   }, [schedule]);
 
+  const onNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const onSubmitClick = () => {};
+
   return (
     <>
       <Row className="mb-5">
-        <Col>
-          <Form.Group>
-            <Form.Label>日程調整URL</Form.Label>
-            <Form.Control
-              value={window.location.href}
-              type="text"
-              placeholder="日程調整URL"
-              readOnly={true}
-            />
-          </Form.Group>
+        <Col lg={9} md={8} className="mt-2">
+          <Form.Control
+            value={window.location.href}
+            type="text"
+            placeholder="日程調整URL"
+            readOnly={true}
+          />
+        </Col>
+        <Col lg={3} md={4} className="mt-2">
           <CopyToClipBoard onCopy={onCopy} text={window.location.href}>
             <Button style={{ width: '100%' }}>
               <FontAwesomeIcon style={{ marginRight: '10px' }} icon={faCopy} />
@@ -67,7 +73,7 @@ export function Show() {
           )}
         </Col>
       </Row>
-      <Row>
+      <Row className="mb-3">
         <Col>
           <Form.Group>
             <Form.Label>参加可能な日付を選びましょう</Form.Label>
@@ -94,8 +100,30 @@ export function Show() {
           </Form.Group>
         </Col>
       </Row>
+      <Row className="mb-3">
+        <Col>
+          <Form.Group>
+            <Form.Label>あなたの名前</Form.Label>
+            <Form.Control
+              onChange={onNameChange}
+              value={name}
+              type="text"
+              placeholder="あなたの名前"
+            />
+          </Form.Group>
+        </Col>
+      </Row>
       <Row>
-        <Col></Col>
+        <Col>
+          <Button
+            onClick={onSubmitClick}
+            style={{ width: '100%' }}
+            variant="primary"
+            type="submit"
+          >
+            回答
+          </Button>
+        </Col>
       </Row>
     </>
   );
