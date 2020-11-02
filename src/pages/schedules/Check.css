@@ -1,7 +1,17 @@
+.checkbox {
+  height: 2.3rem;
+  font-family: monospace;
+}
+
 .checkbox .form-check-input {
   -ms-transform: scale(1.5);
   -moz-transform: scale(1.5);
   -webkit-transform: scale(1.5);
   -o-transform: scale(1.5);
   transform: scale(1.5);
+}
+
+.checkbox .form-check-label {
+  font-size: 1rem;
+  padding-left: 7px;
 }

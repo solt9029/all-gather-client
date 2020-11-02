@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { intersectionBy, cloneDeep } from 'lodash';
 import './Check.css';
+import dayjs from 'dayjs';
 
 export function Show() {
   const routeMatch = useRouteMatch();
@@ -96,7 +97,9 @@ export function Show() {
                   key={candidateDate.id}
                   name="aaa"
                   type="checkbox"
-                  label={candidateDate.date}
+                  label={dayjs(candidateDate.date).format(
+                    'YYYY年MM月DD日 (dd)'
+                  )}
                 />
               ))}
           </Form.Group>
