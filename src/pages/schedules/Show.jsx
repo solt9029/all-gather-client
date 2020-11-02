@@ -67,29 +67,33 @@ export function Show() {
           )}
         </Col>
       </Row>
-      <Form.Group>
-        <Form.Label>参加可能な日付を選びましょう</Form.Label>
-        {candidateDates
-          .sort((a, b) => (new Date(a.date) < new Date(b.date) ? -1 : 1))
-          .map((candidateDate) => (
-            <Form.Check
-              onChange={(event) => {
-                console.log(checkedIds);
-                if (event.target.checked) {
-                  setCheckedIds([...checkedIds, candidateDate.id]);
-                  return;
-                }
-                setCheckedIds(
-                  checkedIds.filter((id) => id !== candidateDate.id)
-                );
-              }}
-              key={candidateDate.id}
-              name="aaa"
-              type="checkbox"
-              label={candidateDate.date}
-            />
-          ))}
-      </Form.Group>
+      <Row>
+        <Col>
+          <Form.Group>
+            <Form.Label>参加可能な日付を選びましょう</Form.Label>
+            {candidateDates
+              .sort((a, b) => (new Date(a.date) < new Date(b.date) ? -1 : 1))
+              .map((candidateDate) => (
+                <Form.Check
+                  onChange={(event) => {
+                    console.log(checkedIds);
+                    if (event.target.checked) {
+                      setCheckedIds([...checkedIds, candidateDate.id]);
+                      return;
+                    }
+                    setCheckedIds(
+                      checkedIds.filter((id) => id !== candidateDate.id)
+                    );
+                  }}
+                  key={candidateDate.id}
+                  name="aaa"
+                  type="checkbox"
+                  label={candidateDate.date}
+                />
+              ))}
+          </Form.Group>
+        </Col>
+      </Row>
       <Row>
         <Col></Col>
       </Row>
