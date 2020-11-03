@@ -194,15 +194,16 @@ export function Show() {
           </p>
         </Col>
       </Row>
-      <Row className="mb-5">
+      <Row>
         <Col>
           <ListGroup>
             {schedule?.schedule_members?.length === 0 && (
               <div>まだ誰も回答してません</div>
             )}
             {schedule?.schedule_members &&
-              schedule.schedule_members.map((scheduleMember) => (
+              schedule.schedule_members.map((scheduleMember, index) => (
                 <ListGroupItem
+                  key={index}
                   style={{
                     paddingLeft: '1rem',
                     paddingRight: '1rem',
