@@ -35,7 +35,6 @@ export function Show() {
         const response = await fetchSchedule(routeMatch.params.id);
         setSchedule(response.data);
       } catch (error) {
-        console.log(error.response);
         setError(error);
       }
     })();
@@ -182,7 +181,6 @@ export function Show() {
                     style={{ padding: '5px', marginLeft: '20px' }}
                     className="checkbox"
                     onChange={(event) => {
-                      console.log(checkedDateIds);
                       if (event.target.checked) {
                         setCheckedDateIds([
                           ...checkedDateIds,
