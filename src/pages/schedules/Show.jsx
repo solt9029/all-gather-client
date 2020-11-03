@@ -61,6 +61,9 @@ export function Show() {
             placeholder="日程調整URL"
             readOnly={true}
           />
+          {isUrlCopied && (
+            <small className="text-secondary">URLのコピーが完了しました</small>
+          )}
         </Col>
         <Col lg={3} md={4} className="mt-2">
           <CopyToClipBoard onCopy={onCopy} text={window.location.href}>
@@ -69,9 +72,6 @@ export function Show() {
               URLをコピー
             </Button>
           </CopyToClipBoard>
-          {isUrlCopied && (
-            <small className="text-secondary">URLのコピーが完了しました</small>
-          )}
         </Col>
       </Row>
       <Row className="mb-3">
