@@ -11,9 +11,11 @@ const containerStyle = { maxWidth: '600px' };
 export function App() {
   return (
     <BrowserRouter>
-      <Navbar bg="primary" variant="dark" className="mb-4">
+      <Navbar bg="white" className="mb-4">
         <Container style={containerStyle}>
-          <NavbarBrand href="/schedules/new">全員集合！</NavbarBrand>
+          <NavbarBrand href="/schedules/new">
+            <b>全員集合！</b>
+          </NavbarBrand>
         </Container>
       </Navbar>
       <Container style={containerStyle}>
