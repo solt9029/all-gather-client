@@ -13,7 +13,7 @@ export function Show() {
   const routeMatch = useRouteMatch();
   const [schedule, setSchedule] = useState(null);
   const [isUrlCopied, setIsUrlCopied] = useState(false);
-  const [checkedIds, setCheckedIds] = useState([]);
+  const [checkedDateIds, setCheckedDateIds] = useState([]);
   const [name, setName] = useState('');
 
   useEffect(() => {
@@ -49,7 +49,14 @@ export function Show() {
     setName(event.target.value);
   };
 
-  const onSubmitClick = () => {};
+  const onSubmitClick = () => {
+    // try {
+    //   const response = await answerSchedule({ title, dates });
+    //   history.push(`/schedules/${response.data.id}`);
+    // } catch (error) {
+    //   console.log(error.response.data.errors);
+    // }
+  };
 
   return (
     <>
@@ -85,13 +92,13 @@ export function Show() {
                   style={{ padding: '5px', marginLeft: '20px' }}
                   className="checkbox"
                   onChange={(event) => {
-                    console.log(checkedIds);
+                    console.log(checkedDateIds);
                     if (event.target.checked) {
-                      setCheckedIds([...checkedIds, candidateDate.id]);
+                      setCheckedDateIds([...checkedDateIds, candidateDate.id]);
                       return;
                     }
-                    setCheckedIds(
-                      checkedIds.filter((id) => id !== candidateDate.id)
+                    setCheckedDateIds(
+                      checkedDateIds.filter((id) => id !== candidateDate.id)
                     );
                   }}
                   key={candidateDate.id}

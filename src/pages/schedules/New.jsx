@@ -28,7 +28,12 @@ function Calendar() {
       const response = await createSchedule({ title, dates });
       history.push(`/schedules/${response.data.id}`);
     } catch (error) {
-      console.log(error.response.data.errors);
+      if (error?.response?.status === 400) {
+        // validation error
+        console.log(error.response.data.errors);
+        return;
+      }
+      // server error
     }
   };
 
