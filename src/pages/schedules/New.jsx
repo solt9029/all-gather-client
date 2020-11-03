@@ -64,7 +64,9 @@ function Calendar() {
       <Row className="mb-3">
         <Col>
           <Form.Group>
-            <Form.Label>イベント名</Form.Label>
+            <Form.Label>
+              <b>イベント名</b>
+            </Form.Label>
             <Form.Control
               onChange={onTitleChange}
               value={title}
@@ -77,7 +79,9 @@ function Calendar() {
 
       <Row>
         <Col>
-          <p>日程を選びましょう</p>
+          <p>
+            <b>日程を選びましょう</b>
+          </p>
         </Col>
       </Row>
       <Row className="mb-5">
