@@ -27,7 +27,6 @@ export function Show() {
     (async () => {
       const response = await fetchSchedule(routeMatch.params.id);
       setSchedule(response.data);
-      console.log(response.data);
     })();
   }, [routeMatch.params.id]);
 
