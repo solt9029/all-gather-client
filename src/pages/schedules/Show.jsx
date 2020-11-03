@@ -24,9 +24,11 @@ export function Show() {
   const [checkedDateIds, setCheckedDateIds] = useState([]);
   const [name, setName] = useState('');
   const [scheduleMember, setScheduleMember] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     (async () => {
+      await setError(null);
       const response = await fetchSchedule(routeMatch.params.id);
       setSchedule(response.data);
     })();
@@ -47,7 +49,7 @@ export function Show() {
     return intersectionBy(
       schedule_dates,
       ...schedule_members.map(
-        (scheduleMember) => scheduleMember.schedule_dates
+        (scheduleMember) => scheduleMember.schedule_dates || []
       ),
       'date'
     );
@@ -59,22 +61,42 @@ export function Show() {
 
   const onSubmitClick = async () => {
     try {
+      await setError(null);
       const scheduleMember = await answerSchedule(routeMatch.params.id, {
         name,
         date_ids: checkedDateIds,
       });
       await setScheduleMember(scheduleMember);
     } catch (error) {
-      console.log(error.response.data.errors);
+      setError(error);
+      console.log(error);
     }
   };
 
   return (
     <>
-      {scheduleMember && (
+      {scheduleMember !== null && error === null && (
         <Row className="mb-3">
           <Col>
             <Alert variant="success">日程調整の回答が完了しました</Alert>
+          </Col>
+        </Row>
+      )}
+      {error !== null && error?.response?.status === 500 && (
+        <Row className="mb-3">
+          <Col>
+            <Alert variant="danger">エラーが発生しました</Alert>
+          </Col>
+        </Row>
+      )}
+      {error !== null && error?.response?.status === 400 && (
+        <Row className="mb-3">
+          <Col>
+            <Alert variant="danger">
+              {error.response.data.errors.map((error) => (
+                <li>{error}</li>
+              ))}
+            </Alert>
           </Col>
         </Row>
       )}
@@ -105,6 +127,11 @@ export function Show() {
             <Form.Label>
               <b>参加可能な日付を選びましょう</b>
             </Form.Label>
+            {candidateDates.length === 0 && (
+              <div>
+                回答済みのメンバー全員の参加できる日程が存在しませんでした
+              </div>
+            )}
             {candidateDates
               .sort((a, b) => (new Date(a.date) < new Date(b.date) ? -1 : 1))
               .map((candidateDate) => (
