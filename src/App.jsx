@@ -22,6 +22,15 @@ export function App() {
           </Switch>
         </BrowserRouter>
       </Container>
+      <Container
+        fluid
+        className="mt-5 mb-3"
+        style={{
+          textAlign: 'center',
+        }}
+      >
+        <small>Copyright © Kenshi Shiode. All Rights Reserved.</small>
+      </Container>
     </>
   );
 }
