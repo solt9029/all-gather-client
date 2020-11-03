@@ -3,7 +3,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { New } from './pages/schedules/New';
 import { Show } from './pages/schedules/Show';
 import { Navbar, Container, NavbarBrand } from 'react-bootstrap';
-import { NotFound } from './pages/schedules/NotFound';
+import { NotFound } from './pages/NotFound';
+import { Top } from './pages/Top';
 
 const containerStyle = { maxWidth: '600px' };
 
@@ -17,6 +18,7 @@ export function App() {
       </Navbar>
       <Container style={containerStyle}>
         <Switch>
+          <Route exact path="/" component={Top} />
           <Route exact path="/schedules/new" component={New} />
           <Route exact path="/schedules/:id" component={Show} />
           <Route component={NotFound} />

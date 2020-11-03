@@ -8,7 +8,7 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { intersectionBy } from 'lodash';
 import './Check.css';
 import dayjs from 'dayjs';
-import { NotFound } from './NotFound';
+import { NotFound } from '../NotFound';
 
 export function Show() {
   const routeMatch = useRouteMatch();
