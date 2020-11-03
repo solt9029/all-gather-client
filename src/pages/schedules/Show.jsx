@@ -260,46 +260,48 @@ export function Show() {
                   <th key={scheduleMember.id}>{scheduleMember.name}</th>
                 ))}
               </tr>
-              {schedule?.schedule_dates?.map((scheduleDate) => {
-                return (
-                  <tr key={scheduleDate.id}>
-                    <td>{dayjs(scheduleDate.date).format('MM/DD')}</td>
-                    {schedule?.schedule_members?.map(
-                      (scheduleMember, index) => {
-                        const hasDate = scheduleMember.schedule_dates.some(
-                          (value) => value.id === scheduleDate.id
-                        );
-                        if (hasDate) {
-                          return (
-                            <td key={index}>
-                              <span role="img" aria-label="ok">
-                                ⭕️
-                              </span>
-                            </td>
-                          );
-                        }
-                        if (index > 0) {
-                          const previousScheduleMember =
-                            schedule.schedule_members[index - 1];
-                          const hasPreviousDate = previousScheduleMember.schedule_dates.some(
+              {schedule?.schedule_dates
+                ?.sort((a, b) => (new Date(a.date) < new Date(b.date) ? -1 : 1))
+                .map((scheduleDate) => {
+                  return (
+                    <tr key={scheduleDate.id}>
+                      <td>{dayjs(scheduleDate.date).format('MM/DD')}</td>
+                      {schedule?.schedule_members?.map(
+                        (scheduleMember, index) => {
+                          const hasDate = scheduleMember.schedule_dates.some(
                             (value) => value.id === scheduleDate.id
                           );
-                          if (hasPreviousDate) {
+                          if (hasDate) {
                             return (
                               <td key={index}>
-                                <span role="img" aria-label="ng">
-                                  ✖️
+                                <span role="img" aria-label="ok">
+                                  ⭕️
                                 </span>
                               </td>
                             );
                           }
+                          if (index > 0) {
+                            const previousScheduleMember =
+                              schedule.schedule_members[index - 1];
+                            const hasPreviousDate = previousScheduleMember.schedule_dates.some(
+                              (value) => value.id === scheduleDate.id
+                            );
+                            if (hasPreviousDate) {
+                              return (
+                                <td key={index}>
+                                  <span role="img" aria-label="ng">
+                                    ✖️
+                                  </span>
+                                </td>
+                              );
+                            }
+                          }
+                          return <td key={index}></td>;
                         }
-                        return <td key={index}></td>;
-                      }
-                    )}
-                  </tr>
-                );
-              })}
+                      )}
+                    </tr>
+                  );
+                })}
             </thead>
           </Table>
         </Col>

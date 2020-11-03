@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { New } from './pages/schedules/New';
 import { Show } from './pages/schedules/Show';
 import { Navbar, Container, NavbarBrand } from 'react-bootstrap';
