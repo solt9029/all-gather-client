@@ -11,3 +11,7 @@ export const createSchedule = async (data) => {
 export const fetchSchedule = async (id) => {
   return client.get(`/schedules/${id}`);
 };
+
+export const answerSchedule = async (id, data) => {
+  return client.post(`/schedules/${id}/answer`, data);
+};

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Row, Col, Form, Button } from 'react-bootstrap';
-import { fetchSchedule } from '../../utils';
+import { fetchSchedule, answerSchedule } from '../../utils';
 import { useRouteMatch } from 'react-router-dom';
 import CopyToClipBoard from 'react-copy-to-clipboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -49,13 +49,15 @@ export function Show() {
     setName(event.target.value);
   };
 
-  const onSubmitClick = () => {
-    // try {
-    //   const response = await answerSchedule({ title, dates });
-    //   history.push(`/schedules/${response.data.id}`);
-    // } catch (error) {
-    //   console.log(error.response.data.errors);
-    // }
+  const onSubmitClick = async () => {
+    try {
+      const response = await answerSchedule(routeMatch.params.id, {
+        name,
+        date_ids: checkedDateIds,
+      });
+    } catch (error) {
+      console.log(error.response.data.errors);
+    }
   };
 
   return (
