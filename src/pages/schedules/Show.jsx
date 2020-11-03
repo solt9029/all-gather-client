@@ -29,7 +29,7 @@ export function Show() {
       setSchedule(response.data);
       console.log(response.data);
     })();
-  }, [routeMatch]);
+  }, [routeMatch.params.id]);
 
   const onCopy = () => {
     setIsUrlCopied(true);
@@ -58,10 +58,12 @@ export function Show() {
 
   const onSubmitClick = async () => {
     try {
-      const response = await answerSchedule(routeMatch.params.id, {
+      await answerSchedule(routeMatch.params.id, {
         name,
         date_ids: checkedDateIds,
       });
+      const response = await fetchSchedule(routeMatch.params.id);
+      setSchedule(response.data);
     } catch (error) {
       console.log(error.response.data.errors);
     }
