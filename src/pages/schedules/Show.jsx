@@ -1,18 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import {
-  Row,
-  Col,
-  Form,
-  Button,
-  ListGroup,
-  ListGroupItem,
-  Alert,
-} from 'react-bootstrap';
+import { Row, Col, Form, Button, Alert, Table } from 'react-bootstrap';
 import { fetchSchedule, answerSchedule } from '../../utils';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import CopyToClipBoard from 'react-copy-to-clipboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
 import { intersectionBy } from 'lodash';
 import './Check.css';
 import dayjs from 'dayjs';
@@ -242,35 +234,74 @@ export function Show() {
       <Row>
         <Col>
           <p>
-            <b>回答済みのメンバー</b>
+            <b>回答済みのメンバー（{schedule?.schedule_members?.length}人）</b>
           </p>
         </Col>
       </Row>
       <Row>
         <Col>
-          <ListGroup>
-            {schedule?.schedule_members?.length === 0 && (
-              <div>まだ誰も回答してません</div>
-            )}
-            {schedule?.schedule_members &&
-              schedule.schedule_members.map((scheduleMember, index) => (
-                <ListGroupItem
-                  key={index}
-                  style={{
-                    paddingLeft: '1rem',
-                    paddingRight: '1rem',
-                    paddingTop: '0.3rem',
-                    paddingBottom: '0.3rem',
-                  }}
-                >
-                  <FontAwesomeIcon
-                    style={{ marginRight: '10px' }}
-                    icon={faUser}
-                  />
-                  {scheduleMember.name} さん
-                </ListGroupItem>
-              ))}
-          </ListGroup>
+          <Table
+            bordered
+            striped
+            hover
+            style={{
+              overflow: 'auto',
+              display: 'block',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              textAlign: 'center',
+            }}
+            className="small"
+          >
+            <thead>
+              <tr>
+                <th>日程</th>
+                {schedule?.schedule_members?.map((scheduleMember) => (
+                  <th>{scheduleMember.name}</th>
+                ))}
+              </tr>
+              {schedule?.schedule_dates?.map((scheduleDate) => {
+                return (
+                  <tr>
+                    <td>{dayjs(scheduleDate.date).format('MM/DD')}</td>
+                    {schedule?.schedule_members?.map(
+                      (scheduleMember, index) => {
+                        const hasDate = scheduleMember.schedule_dates.some(
+                          (value) => value.id === scheduleDate.id
+                        );
+                        if (hasDate) {
+                          return (
+                            <td>
+                              <span role="img" aria-label="ok">
+                                ⭕️
+                              </span>
+                            </td>
+                          );
+                        }
+                        if (index > 0) {
+                          const previousScheduleMember =
+                            schedule.schedule_members[index - 1];
+                          const hasPreviousDate = previousScheduleMember.schedule_dates.some(
+                            (value) => value.id === scheduleDate.id
+                          );
+                          if (hasPreviousDate) {
+                            return (
+                              <td>
+                                <span role="img" aria-label="ng">
+                                  ✖️
+                                </span>
+                              </td>
+                            );
+                          }
+                        }
+                        return <td></td>;
+                      }
+                    )}
+                  </tr>
+                );
+              })}
+            </thead>
+          </Table>
         </Col>
       </Row>
     </>
