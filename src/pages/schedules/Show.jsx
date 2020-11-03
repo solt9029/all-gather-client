@@ -78,6 +78,10 @@ export function Show() {
     }
   };
 
+  const onAllSelectClick = () => {
+    setCheckedDateIds(candidateDates.map((candidateDate) => candidateDate.id));
+  };
+
   return (
     <>
       {scheduleMember !== null && error === null && (
@@ -106,7 +110,7 @@ export function Show() {
         </Row>
       )}
       <Row className="mb-5">
-        <Col lg={9} md={8} className="mt-2" style={{ paddingRight: '0.3rem' }}>
+        <Col lg={9} md={8} className="mt-2">
           <Form.Control
             value={window.location.href}
             type="text"
@@ -117,7 +121,7 @@ export function Show() {
             <small className="text-secondary">URLのコピーが完了しました</small>
           )}
         </Col>
-        <Col lg={3} md={4} className="mt-2" style={{ paddingLeft: '0.3rem' }}>
+        <Col lg={3} md={4} className="mt-2">
           <CopyToClipBoard onCopy={onCopy} text={window.location.href}>
             <Button style={{ width: '100%' }} variant="info">
               <FontAwesomeIcon style={{ marginRight: '10px' }} icon={faCopy} />
@@ -146,18 +150,15 @@ export function Show() {
           {candidateDates.length > 0 && (
             <Form.Group>
               <Form.Label>
-                <b>参加可能な日付を選びましょう</b>{' '}
+                <b>参加可能な日程を選びましょう</b>{' '}
                 <Button
+                  onClick={onAllSelectClick}
                   variant="info"
                   style={{
                     marginLeft: '10px',
-                    paddingLeft: '0.5rem',
-                    paddingRight: '0.5rem',
-                    paddingTop: '0.2rem',
-                    paddingBottom: '0.2rem',
                   }}
                 >
-                  全部選択
+                  全選択
                 </Button>
               </Form.Label>
               {candidateDates
