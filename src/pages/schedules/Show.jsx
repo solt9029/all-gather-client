@@ -294,9 +294,17 @@ export function Show() {
                                   </span>
                                 </td>
                               );
+                            } else {
+                              return <td key={index}></td>;
                             }
                           }
-                          return <td key={index}></td>;
+                          return (
+                            <td key={index}>
+                              <span role="img" aria-label="ng">
+                                ✖️
+                              </span>
+                            </td>
+                          );
                         }
                       )}
                     </tr>
