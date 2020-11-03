@@ -146,7 +146,19 @@ export function Show() {
           {candidateDates.length > 0 && (
             <Form.Group>
               <Form.Label>
-                <b>参加可能な日付を選びましょう</b>
+                <b>参加可能な日付を選びましょう</b>{' '}
+                <Button
+                  variant="info"
+                  style={{
+                    marginLeft: '10px',
+                    paddingLeft: '0.5rem',
+                    paddingRight: '0.5rem',
+                    paddingTop: '0.2rem',
+                    paddingBottom: '0.2rem',
+                  }}
+                >
+                  全部選択
+                </Button>
               </Form.Label>
               {candidateDates
                 .sort((a, b) => (new Date(a.date) < new Date(b.date) ? -1 : 1))
@@ -167,6 +179,9 @@ export function Show() {
                         checkedDateIds.filter((id) => id !== candidateDate.id)
                       );
                     }}
+                    checked={checkedDateIds.some(
+                      (id) => id === candidateDate.id
+                    )}
                     key={candidateDate.id}
                     name="aaa"
                     type="checkbox"
