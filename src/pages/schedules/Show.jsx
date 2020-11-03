@@ -7,7 +7,7 @@ import {
   ListGroup,
   ListGroupItem,
 } from 'react-bootstrap';
-import { fetchSchedule, answerSchedule, usePrevious } from '../../utils';
+import { fetchSchedule, answerSchedule } from '../../utils';
 import { useRouteMatch } from 'react-router-dom';
 import CopyToClipBoard from 'react-copy-to-clipboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
