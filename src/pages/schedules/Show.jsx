@@ -7,7 +7,7 @@ import {
   ListGroup,
   ListGroupItem,
 } from 'react-bootstrap';
-import { fetchSchedule, answerSchedule } from '../../utils';
+import { fetchSchedule, answerSchedule, usePrevious } from '../../utils';
 import { useRouteMatch } from 'react-router-dom';
 import CopyToClipBoard from 'react-copy-to-clipboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,13 +22,14 @@ export function Show() {
   const [isUrlCopied, setIsUrlCopied] = useState(false);
   const [checkedDateIds, setCheckedDateIds] = useState([]);
   const [name, setName] = useState('');
+  const [scheduleMember, setScheduleMember] = useState(null);
 
   useEffect(() => {
     (async () => {
       const response = await fetchSchedule(routeMatch.params.id);
       setSchedule(response.data);
     })();
-  }, [routeMatch.params.id]);
+  }, [routeMatch.params.id, scheduleMember]);
 
   const onCopy = () => {
     setIsUrlCopied(true);
@@ -57,12 +58,11 @@ export function Show() {
 
   const onSubmitClick = async () => {
     try {
-      await answerSchedule(routeMatch.params.id, {
+      const scheduleMember = await answerSchedule(routeMatch.params.id, {
         name,
         date_ids: checkedDateIds,
       });
-      const response = await fetchSchedule(routeMatch.params.id);
-      setSchedule(response.data);
+      await setScheduleMember(scheduleMember);
     } catch (error) {
       console.log(error.response.data.errors);
     }
