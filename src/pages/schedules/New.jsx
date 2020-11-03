@@ -3,7 +3,7 @@ import ReactCalendar from 'react-calendar';
 import './Calendar.css';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ja';
-import { Row, Col, Form, Button } from 'react-bootstrap';
+import { Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import { createSchedule } from '../../utils';
 import { useHistory } from 'react-router-dom';
 
@@ -17,6 +17,7 @@ const removeDate = (dates, date) =>
 function Calendar() {
   const [dates, setDates] = useState([]);
   const [title, setTitle] = useState('');
+  const [error, setError] = useState(null);
   const history = useHistory();
 
   const onTitleChange = (event) => {
@@ -25,15 +26,11 @@ function Calendar() {
 
   const onSubmitClick = async () => {
     try {
+      await setError(null);
       const response = await createSchedule({ title, dates });
       history.push(`/schedules/${response.data.id}`);
     } catch (error) {
-      if (error?.response?.status === 400) {
-        // validation error
-        console.log(error.response.data.errors);
-        return;
-      }
-      // server error
+      setError(error);
     }
   };
 
@@ -53,6 +50,25 @@ function Calendar() {
 
   return (
     <>
+      {error !== null && error?.response?.status === 500 && (
+        <Row className="mb-3">
+          <Col>
+            <Alert variant="danger">エラーが発生しました</Alert>
+          </Col>
+        </Row>
+      )}
+      {error !== null && error?.response?.status === 400 && (
+        <Row className="mb-3">
+          <Col>
+            <Alert variant="danger">
+              {error.response.data.errors.map((error) => (
+                <li>{error}</li>
+              ))}
+            </Alert>
+          </Col>
+        </Row>
+      )}
+
       <Row className="mb-3">
         <Col>
           <p>
