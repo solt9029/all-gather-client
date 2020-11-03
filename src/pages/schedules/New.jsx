@@ -81,13 +81,13 @@ function Calendar() {
         <Col>
           <Form.Group>
             <Form.Label>
-              <b>イベント名</b>
+              <b>タイトル</b>
             </Form.Label>
             <Form.Control
               onChange={onTitleChange}
               value={title}
               type="text"
-              placeholder="イベント名"
+              placeholder="タイトル"
             />
           </Form.Group>
         </Col>
