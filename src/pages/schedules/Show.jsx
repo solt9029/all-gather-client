@@ -109,6 +109,11 @@ export function Show() {
           </Col>
         </Row>
       )}
+      <Row>
+        <Col>
+          <h4>#{schedule?.title}</h4>
+        </Col>
+      </Row>
       <Row className="mb-5">
         <Col lg={9} md={8} className="mt-2">
           <Form.Control
