@@ -12,7 +12,7 @@ import { useRouteMatch } from 'react-router-dom';
 import CopyToClipBoard from 'react-copy-to-clipboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy } from '@fortawesome/free-solid-svg-icons';
-import { intersectionBy, cloneDeep } from 'lodash';
+import { intersectionBy } from 'lodash';
 import './Check.css';
 import dayjs from 'dayjs';
 
