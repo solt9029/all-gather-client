@@ -4,7 +4,7 @@ import { New } from './pages/schedules/New';
 import { Show } from './pages/schedules/Show';
 import { Navbar, Container, NavbarBrand } from 'react-bootstrap';
 
-const containerStyle = { maxWidth: '800px' };
+const containerStyle = { maxWidth: '600px' };
 
 export function App() {
   return (

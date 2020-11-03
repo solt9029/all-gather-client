@@ -101,7 +101,7 @@ export function Show() {
         </Row>
       )}
       <Row className="mb-5">
-        <Col lg={9} md={8} className="mt-2">
+        <Col lg={9} md={8} className="mt-2" style={{ paddingRight: '0.3rem' }}>
           <Form.Control
             value={window.location.href}
             type="text"
@@ -112,11 +112,11 @@ export function Show() {
             <small className="text-secondary">URLのコピーが完了しました</small>
           )}
         </Col>
-        <Col lg={3} md={4} className="mt-2">
+        <Col lg={3} md={4} className="mt-2" style={{ paddingLeft: '0.3rem' }}>
           <CopyToClipBoard onCopy={onCopy} text={window.location.href}>
             <Button style={{ width: '100%' }}>
               <FontAwesomeIcon style={{ marginRight: '10px' }} icon={faCopy} />
-              URLをコピー
+              コピー
             </Button>
           </CopyToClipBoard>
         </Col>
