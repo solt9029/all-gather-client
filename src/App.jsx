@@ -13,7 +13,7 @@ export function App() {
     <BrowserRouter>
       <Navbar bg="white" className="mb-4">
         <Container style={containerStyle}>
-          <NavbarBrand href="/schedules/new">
+          <NavbarBrand href="/">
             <b>全員集合！</b>
           </NavbarBrand>
         </Container>
