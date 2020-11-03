@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Row, Col, Form, Button } from 'react-bootstrap';
+import {
+  Row,
+  Col,
+  Form,
+  Button,
+  ListGroup,
+  ListGroupItem,
+} from 'react-bootstrap';
 import { fetchSchedule, answerSchedule } from '../../utils';
 import { useRouteMatch } from 'react-router-dom';
 import CopyToClipBoard from 'react-copy-to-clipboard';
@@ -127,7 +134,7 @@ export function Show() {
           </Form.Group>
         </Col>
       </Row>
-      <Row>
+      <Row className="mb-5">
         <Col>
           <Button
             onClick={onSubmitClick}
@@ -137,6 +144,31 @@ export function Show() {
           >
             回答
           </Button>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col>
+          <p>回答済みのメンバー</p>
+        </Col>
+      </Row>
+      <Row className="mb-5">
+        <Col>
+          <ListGroup>
+            {schedule?.schedule_members &&
+              schedule.schedule_members.map((scheduleMember) => (
+                <ListGroupItem
+                  style={{
+                    paddingLeft: '1rem',
+                    paddingRight: '1rem',
+                    paddingTop: '0.3rem',
+                    paddingBottom: '0.3rem',
+                  }}
+                >
+                  {scheduleMember.name} さん
+                </ListGroupItem>
+              ))}
+          </ListGroup>
         </Col>
       </Row>
     </>
