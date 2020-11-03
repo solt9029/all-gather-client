@@ -16,6 +16,7 @@ import { faCopy, faUser } from '@fortawesome/free-solid-svg-icons';
 import { intersectionBy } from 'lodash';
 import './Check.css';
 import dayjs from 'dayjs';
+import { NotFound } from './NotFound';
 
 export function Show() {
   const routeMatch = useRouteMatch();
@@ -30,8 +31,13 @@ export function Show() {
   useEffect(() => {
     (async () => {
       await setError(null);
-      const response = await fetchSchedule(routeMatch.params.id);
-      setSchedule(response.data);
+      try {
+        const response = await fetchSchedule(routeMatch.params.id);
+        setSchedule(response.data);
+      } catch (error) {
+        console.log(error.response);
+        setError(error);
+      }
     })();
   }, [routeMatch.params.id, scheduleMember]);
 
@@ -74,13 +80,16 @@ export function Show() {
       await setScheduleMember(scheduleMember);
     } catch (error) {
       setError(error);
-      console.log(error);
     }
   };
 
   const onAllSelectClick = () => {
     setCheckedDateIds(candidateDates.map((candidateDate) => candidateDate.id));
   };
+
+  if (schedule === null && error !== null && error.response?.status === 404) {
+    return <NotFound />;
+  }
 
   return (
     <>
@@ -91,14 +100,14 @@ export function Show() {
           </Col>
         </Row>
       )}
-      {error !== null && error?.response?.status === 500 && (
+      {error !== null && error.response?.status === 500 && (
         <Row className="mb-3">
           <Col>
             <Alert variant="danger">エラーが発生しました</Alert>
           </Col>
         </Row>
       )}
-      {error !== null && error?.response?.status === 400 && (
+      {error !== null && error.response?.status === 400 && (
         <Row className="mb-3">
           <Col>
             <Alert variant="danger">
@@ -147,7 +156,7 @@ export function Show() {
               </div>
               <div>
                 <Button variant="info" onClick={onCreateClick}>
-                  もう一度日程調整イベントを作成する
+                  新しい日程調整を作成
                 </Button>
               </div>
             </div>
