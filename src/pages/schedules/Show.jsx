@@ -257,12 +257,12 @@ export function Show() {
               <tr>
                 <th>日程</th>
                 {schedule?.schedule_members?.map((scheduleMember) => (
-                  <th>{scheduleMember.name}</th>
+                  <th key={scheduleMember.id}>{scheduleMember.name}</th>
                 ))}
               </tr>
               {schedule?.schedule_dates?.map((scheduleDate) => {
                 return (
-                  <tr>
+                  <tr key={scheduleDate.id}>
                     <td>{dayjs(scheduleDate.date).format('MM/DD')}</td>
                     {schedule?.schedule_members?.map(
                       (scheduleMember, index) => {
@@ -271,7 +271,7 @@ export function Show() {
                         );
                         if (hasDate) {
                           return (
-                            <td>
+                            <td key={index}>
                               <span role="img" aria-label="ok">
                                 ⭕️
                               </span>
@@ -286,7 +286,7 @@ export function Show() {
                           );
                           if (hasPreviousDate) {
                             return (
-                              <td>
+                              <td key={index}>
                                 <span role="img" aria-label="ng">
                                   ✖️
                                 </span>
@@ -294,7 +294,7 @@ export function Show() {
                             );
                           }
                         }
-                        return <td></td>;
+                        return <td key={index}></td>;
                       }
                     )}
                   </tr>
