@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-bootstrap';
 import { fetchSchedule, answerSchedule } from '../../utils';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import CopyToClipBoard from 'react-copy-to-clipboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -25,6 +25,7 @@ export function Show() {
   const [name, setName] = useState('');
   const [scheduleMember, setScheduleMember] = useState(null);
   const [error, setError] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     (async () => {
@@ -57,6 +58,10 @@ export function Show() {
 
   const onNameChange = (event) => {
     setName(event.target.value);
+  };
+
+  const onCreateClick = () => {
+    history.push('/schedules/new');
   };
 
   const onSubmitClick = async () => {
@@ -114,7 +119,7 @@ export function Show() {
         </Col>
         <Col lg={3} md={4} className="mt-2" style={{ paddingLeft: '0.3rem' }}>
           <CopyToClipBoard onCopy={onCopy} text={window.location.href}>
-            <Button style={{ width: '100%' }}>
+            <Button style={{ width: '100%' }} variant="info">
               <FontAwesomeIcon style={{ marginRight: '10px' }} icon={faCopy} />
               コピー
             </Button>
@@ -123,69 +128,88 @@ export function Show() {
       </Row>
       <Row className="mb-3">
         <Col>
-          <Form.Group>
-            <Form.Label>
-              <b>参加可能な日付を選びましょう</b>
-            </Form.Label>
-            {candidateDates.length === 0 && (
-              <div>
+          {candidateDates.length === 0 && (
+            <div className="mb-5">
+              <div className="mb-2">
                 回答済みのメンバー全員の参加できる日程が存在しませんでした
+                <span role="img" aria-label="sad">
+                  😢
+                </span>
               </div>
-            )}
-            {candidateDates
-              .sort((a, b) => (new Date(a.date) < new Date(b.date) ? -1 : 1))
-              .map((candidateDate) => (
-                <Form.Check
-                  style={{ padding: '5px', marginLeft: '20px' }}
-                  className="checkbox"
-                  onChange={(event) => {
-                    console.log(checkedDateIds);
-                    if (event.target.checked) {
-                      setCheckedDateIds([...checkedDateIds, candidateDate.id]);
-                      return;
-                    }
-                    setCheckedDateIds(
-                      checkedDateIds.filter((id) => id !== candidateDate.id)
-                    );
-                  }}
-                  key={candidateDate.id}
-                  name="aaa"
-                  type="checkbox"
-                  label={dayjs(candidateDate.date).format(
-                    'YYYY年MM月DD日 (dd)'
-                  )}
+              <div>
+                <Button variant="info" onClick={onCreateClick}>
+                  もう一度日程調整イベントを作成する
+                </Button>
+              </div>
+            </div>
+          )}
+          {candidateDates.length > 0 && (
+            <Form.Group>
+              <Form.Label>
+                <b>参加可能な日付を選びましょう</b>
+              </Form.Label>
+              {candidateDates
+                .sort((a, b) => (new Date(a.date) < new Date(b.date) ? -1 : 1))
+                .map((candidateDate) => (
+                  <Form.Check
+                    style={{ padding: '5px', marginLeft: '20px' }}
+                    className="checkbox"
+                    onChange={(event) => {
+                      console.log(checkedDateIds);
+                      if (event.target.checked) {
+                        setCheckedDateIds([
+                          ...checkedDateIds,
+                          candidateDate.id,
+                        ]);
+                        return;
+                      }
+                      setCheckedDateIds(
+                        checkedDateIds.filter((id) => id !== candidateDate.id)
+                      );
+                    }}
+                    key={candidateDate.id}
+                    name="aaa"
+                    type="checkbox"
+                    label={dayjs(candidateDate.date).format(
+                      'YYYY年MM月DD日 (dd)'
+                    )}
+                  />
+                ))}
+            </Form.Group>
+          )}
+        </Col>
+      </Row>
+      {candidateDates.length !== 0 && (
+        <>
+          <Row className="mb-3">
+            <Col>
+              <Form.Group>
+                <Form.Label>
+                  <b>あなたの名前</b>
+                </Form.Label>
+                <Form.Control
+                  onChange={onNameChange}
+                  value={name}
+                  type="text"
+                  placeholder="あなたの名前"
                 />
-              ))}
-          </Form.Group>
-        </Col>
-      </Row>
-      <Row className="mb-3">
-        <Col>
-          <Form.Group>
-            <Form.Label>
-              <b>あなたの名前</b>
-            </Form.Label>
-            <Form.Control
-              onChange={onNameChange}
-              value={name}
-              type="text"
-              placeholder="あなたの名前"
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-      <Row className="mb-5">
-        <Col>
-          <Button
-            onClick={onSubmitClick}
-            style={{ width: '100%' }}
-            variant="primary"
-            type="submit"
-          >
-            回答
-          </Button>
-        </Col>
-      </Row>
+              </Form.Group>
+            </Col>
+          </Row>
+          <Row className="mb-5">
+            <Col>
+              <Button
+                onClick={onSubmitClick}
+                style={{ width: '100%' }}
+                variant="primary"
+                type="submit"
+              >
+                回答
+              </Button>
+            </Col>
+          </Row>
+        </>
+      )}
 
       <Row>
         <Col>
