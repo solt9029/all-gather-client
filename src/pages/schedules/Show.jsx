@@ -6,12 +6,13 @@ import {
   Button,
   ListGroup,
   ListGroupItem,
+  Alert,
 } from 'react-bootstrap';
 import { fetchSchedule, answerSchedule } from '../../utils';
 import { useRouteMatch } from 'react-router-dom';
 import CopyToClipBoard from 'react-copy-to-clipboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy } from '@fortawesome/free-solid-svg-icons';
+import { faCopy, faUser } from '@fortawesome/free-solid-svg-icons';
 import { intersectionBy } from 'lodash';
 import './Check.css';
 import dayjs from 'dayjs';
@@ -70,6 +71,13 @@ export function Show() {
 
   return (
     <>
+      {scheduleMember && (
+        <Row className="mb-3">
+          <Col>
+            <Alert variant="success">日程調整の回答が完了しました</Alert>
+          </Col>
+        </Row>
+      )}
       <Row className="mb-5">
         <Col lg={9} md={8} className="mt-2">
           <Form.Control
@@ -94,7 +102,9 @@ export function Show() {
       <Row className="mb-3">
         <Col>
           <Form.Group>
-            <Form.Label>参加可能な日付を選びましょう</Form.Label>
+            <Form.Label>
+              <b>参加可能な日付を選びましょう</b>
+            </Form.Label>
             {candidateDates
               .sort((a, b) => (new Date(a.date) < new Date(b.date) ? -1 : 1))
               .map((candidateDate) => (
@@ -125,7 +135,9 @@ export function Show() {
       <Row className="mb-3">
         <Col>
           <Form.Group>
-            <Form.Label>あなたの名前</Form.Label>
+            <Form.Label>
+              <b>あなたの名前</b>
+            </Form.Label>
             <Form.Control
               onChange={onNameChange}
               value={name}
@@ -150,12 +162,17 @@ export function Show() {
 
       <Row>
         <Col>
-          <p>回答済みのメンバー</p>
+          <p>
+            <b>回答済みのメンバー</b>
+          </p>
         </Col>
       </Row>
       <Row className="mb-5">
         <Col>
           <ListGroup>
+            {schedule?.schedule_members?.length === 0 && (
+              <div>まだ誰も回答してません</div>
+            )}
             {schedule?.schedule_members &&
               schedule.schedule_members.map((scheduleMember) => (
                 <ListGroupItem
@@ -166,6 +183,10 @@ export function Show() {
                     paddingBottom: '0.3rem',
                   }}
                 >
+                  <FontAwesomeIcon
+                    style={{ marginRight: '10px' }}
+                    icon={faUser}
+                  />
                   {scheduleMember.name} さん
                 </ListGroupItem>
               ))}
